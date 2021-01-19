@@ -1,0 +1,30 @@
+\expandafter\ifx\csname ifdraft\endcsname\relax
+ \begin{document}
+\fi
+
+\section{計算}
+
+\subsection{VCO2}
+
+\subsection{STPD係数}
+
+ミキシングチャンバーに取り付けられたセンサーによって測定される換気量は，BTPS(Body Temperature, Pressure, Saturated with water vapor)においての値である．これは慣習として体温37℃，水蒸気飽和，計測環境気圧化における容積値として扱われる．VO2, VCO2は慣習としてSTPD(Standard Temperature, Pressure, Dry)，0℃，1気圧の気体標準状態で表記されるため，BTPSを係数を用いてSTPDに換算する必要がある．この係数をSTPD係数と呼ぶ．STPD係数は以下の式で表される．
+
+\begin{equation}
+  STPD = \frac{P_B - P_{H2O}}{760} \times　\frac{273.15}{273.15 + T}
+\end{equation}
+
+ただし，P_B: 気圧，P_{H2O}: 飽和水蒸気圧（\ref{sec:SWVP}で記述する），T: 気温，273.15: 絶対温度である．
+
+\subsubsection{飽和水蒸気圧}
+\label{sec:SWVP}
+
+飽和水蒸気圧P_{H2O}は温度によって変化し，Tetens(1930)の式を用いて近似値を求めることができる．温度T[℃]の時の飽和水蒸気圧e(T)[mmHg]は次の式で求められる．
+
+\begin{equation}
+  e(T) = 6.1078 \times 10 ^ \frac{7.5T}{(T + 237.3)} \times \frac{760}{1013.25}
+\end{equation}
+
+\expandafter\ifx\csname ifdraft\endcsname\relax
+  \end{document}
+\fi

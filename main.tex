@@ -1,0 +1,118 @@
+%ドキュメントスタイルの設定
+\documentclass[12pt]{jsarticle} %文字サイズ12pt
+
+%引用スタイルの設定
+\bibliographystyle{junsrt}
+
+%パッケージ(ここは各自の使いたいパッケージをもってくる)
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[dvipdfmx]{color}
+\usepackage{here}
+\usepackage{dcolumn}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{url}
+
+%本文の文字数，行数の定義
+\setlength{\textwidth}{37zw} %本文の幅 %1行37文字
+\setlength{\textheight}{36\baselineskip} %本文の高さ %1ページ36行
+
+%余白の定義
+\setlength{\hoffset}{0.5cm} %出力位置の調整(横) %0.5cm右にずらす
+\setlength{\voffset}{0cm} %出力位置の調整(縦)
+\setlength{\topmargin}{0cm} %ページ上端の余白
+\setlength{\headheight}{0cm} %ヘッダ領域の高さ
+\setlength{\headsep}{0cm} %ヘッダ領域下端と本文領域上端の間隔
+
+%図番号の定義
+\makeatletter
+\@addtoreset{figure}{section}
+\def\thefigure{\thesection.\arabic{figure}} %章番号.英数字(1~)の形
+\makeatother
+
+%表番号の定義
+\makeatletter
+\@addtoreset{table}{section}
+\def\thetable{\thesection.\arabic{table}} %章番号.英数字(1~)の形
+\makeatother
+
+%数式番号の定義
+\makeatletter
+\@addtoreset{equation}{section}
+\def\theequation{\thesection.\arabic{equation}} %章番号.英数字(1~)の形
+\makeatother
+
+%表紙の記載する内容の定義
+\makeatletter
+\def\@thesis{2021年度卒業論文}
+\def\id#1{\def\@id{#1}}
+\def\department#1{\def\@department{#1}}
+\title{汎用センサーを用いた呼吸代謝測定装置の自作} %タイトル
+\date{\today} %日付
+\department{環境情報学部} %学部
+\id{71741818} %学籍番号
+\author{尾島航基} %名前
+\makeatother
+
+%表紙の組版
+\makeatletter
+\def\@maketitle{
+\begin{center}
+{\huge \@thesis \par} %修士論文と記載される部分
+\vspace{50mm}
+{\LARGE\bf \@title \par} %論文のタイトル部分
+\vspace{30mm}
+{\Large \@date\par} %提出年月日部分
+\vspace{50mm}
+{\Large \@department \par} %所属部分
+{\Large 学籍番号　\@id \par} %学籍番号部分
+\vspace{10mm}
+{\Large \@author} %氏名
+\end{center}
+\par\vskip 1.5em
+}
+\makeatother
+
+\newcommand{\ifdraft}{false} %分割したファイルを読み込むための仕掛け
+
+%ここまでヘッダー
+
+%ここから論文作成の開始
+\begin{document}
+%表紙
+\maketitle %表紙の作成
+\thispagestyle{empty} %ページ番号なし
+\newpage %改行
+\addtocounter{page}{-1} %ページカウントを0にする
+
+%論文要旨
+\thispagestyle{empty} %ページ番号なし
+\include{summary/summary}
+\newpage %改行
+\addtocounter{page}{-1} %ページカウントを0にする
+
+%目次
+\pagenumbering{roman} %ページ番号のスタイル
+\tableofcontents %目次の作成
+\newpage %改行
+\addtocounter{page}{-1} %ページカウントを0にする
+
+%本文開始
+\pagenumbering{arabic} %ページ番号のスタイル
+
+
+%各章ごとに分割したファイルの読み込み
+%\include{test/test01}
+\include{introduction/introduction}
+\include{method/method}
+%\include{calculation/calculation}
+\include{manufacturing/manufacturing}
+\include{verification/verification}
+\include{discussion/discussion}
+
+\bibliography{reference/reference.bib} %参考文献
+
+\include{thanks/thanks} %謝辞
+
+\end{document}
