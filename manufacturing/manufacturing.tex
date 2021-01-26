@@ -4,9 +4,63 @@
 
 \section{製作}
 
-\subsection{全体構成}
+\subsection{装置全体の構成}
 
 装置全体の構成図を以下に示す．
+
+\subsubsection{マイコン}
+
+センサー類を接続し，その値から各種計算値を求める本体となるマイコンには，M5Stack Core2を使用した．M5StackはESP32をベースに各種IOに加えてバッテリーや各種センサーなどを搭載し，それらを標準ライブラリによってラップした主にIoT用途などを想定して深センのM5Stack社によって開発されるマイコンである．ESP32の標準機能として無線LAN, Bluetoothのワイヤレス機能を搭載するため，インターネットを活用した機器の開発を容易に行える．
+
+今回の装置は多数のセンサーを接続し，リアルタイムでの数値の計算を行うことになる．また，その数値をリアルタイムで確認しながら記録できる機能を持たせる．そのため，入出力ピンの数が多く多数のセンサーを接続することができ，M5Stackシリーズの中でも特に処理能力が高く，大型のタッチスクリーンとデータの書き込みが可能なTFカード(Micro SDカード)スロットを搭載したM5Stack Core2を使用した．図\ref{fig:m5stack_core2}にM5Stack Core2と\ref{tb:m5stack_core2_specsheet}にその仕様を示す．
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=8cm]{fig/m5stack_core2}
+    \caption{M5Stack Core2}
+    \label{fig:m5stack_core2}
+  \end{center}
+\end{figure}
+
+\begin{table}[]
+\begin{center}
+\caption{M5Stack Core2 主な仕様（スイッチサイエンス\cite{switchscience_m5stack_core2}より）}
+\label{tb:m5stack_core2_specsheet}
+\begin{tabular}{|l|l|}
+\hline
+リソース       & パラメータ                          \\ \hline
+ESP32-D0WD-V3 & \begin{tabular}[c]{@{}l@{}}240 MHzデュアルコア，600 DMIPS，520 KB SRAM，\\ Wi-Fi，デュアルモードBluetooth\end{tabular} \\ \hline
+フラッシュメモリ   & 16 MB                          \\ \hline
+PSRAM      & 8 MB                           \\ \hline
+入力電圧       & 5 V @ 500 mA                   \\ \hline
+インターフェース      & USB Type-C \times 1, GROVE（I2C+I/O+UART） \times 1                                                     \\ \hline
+IPS LCD スクリーン & 2.0インチ@320 \times 240 ILI9342C                                                                        \\ \hline
+タッチスクリーン   & FT6336U                        \\ \hline
+スピーカー      & 1W-0928                        \\ \hline
+LED        & 電源表示灯（緑）                       \\ \hline
+ボタン        & 電源ボタン，リセットボタン，静電容量ボタン \times 3 \\ \hline
+バイブレーション機能 & 振動モーター                         \\ \hline
+マイクロフォン    & SPM1423                        \\ \hline
+I2Sパワーアンプ  & NS4168                         \\ \hline
+6軸IMU      & MPU6886                        \\ \hline
+RTC        & BM8563                         \\ \hline
+PMU        & AXP192                         \\ \hline
+USBチップ     & CP2104                         \\ \hline
+DC/DC昇圧    & SY7088                         \\ \hline
+TFカードスロット  & 最大16 GB                        \\ \hline
+リチウムバッテリ   & 390 mAh @ 3.7 V                \\ \hline
+アンテナ       & 2.4 GHz 3D アンテナ                \\ \hline
+動作温度       & 0°C～40°C                       \\ \hline
+正味重量       & 52 g                           \\ \hline
+総重量        & 70 g                           \\ \hline
+製品寸法       & 54 \times 54 \times 16 mm      \\ \hline
+包装寸法       & 75 \times 60 \times 20 mm      \\ \hline
+ケース素材      & プラスチック（PC）                     \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsubsection{センサーの接続}
 
 \subsection{呼気の収集}
 \label{sec:correct}
@@ -314,7 +368,7 @@ A-5Sが出力する電圧は正しくキャリブレーションされた場合�
 
 \subsubsection{デジタルフィルターによるノイズ除去}
 
-A-5Sが出力する電圧をオペアンプで増幅し，M5Stack Core2のADコンバーターで読み取ったところ，周期的にスパイク状に高い値を出力していることが確認できた．これを取り除くためにプログラム上のデジタルフィルターで信号を平滑化した．今回使用したのは移動
+A-5Sが出力する電圧を図\ref{fig:a-5s_opamp_schematic}の回路で増幅した電圧をM5Stack Core2のADコンバーターで読み取ったところ，図のようにスパイク状に高い値が混ざるようなノイズが乗ることが分かった．これを取り除くためにプログラム上のデジタルフィルターで信号を平滑化した．今回使用したのは
 
 \subsection{呼気二酸化炭素の計測}
 
@@ -341,6 +395,10 @@ STPD係数の算出に必要な気温・気圧は，BOSCHの温湿度・気圧�
 \subsubsection{計算用マイコン}
 
 \subsubsection{プログラム}
+
+\subsection{掛かった金額}
+
+概算ではあるが，以下に今回使用した部品の価格より装置全体の価格を計算した．
 
 \expandafter\ifx\csname ifdraft\endcsname\relax
   \end{document}
