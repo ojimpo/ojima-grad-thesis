@@ -6,7 +6,15 @@
 
 \subsection{装置全体の構成}
 
-装置全体の構成図を以下に示す．
+装置全体の構成を図\ref{fig:connection_map}に示す．
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=12cm]{fig/connection_map}
+    \caption{装置の全体構成}
+    \label{fig:connection_map}
+  \end{center}
+\end{figure}
 
 \subsubsection{マイコン}
 
@@ -60,11 +68,9 @@ TFカードスロット  & 最大16 GB                        \\ \hline
 \end{center}
 \end{table}
 
-\subsubsection{センサーの接続}
 
 \subsection{呼気の収集}
 \label{sec:correct}
-}
 
 \subsubsection{呼気収集の方法}
 \label{sec:correct_method}
@@ -324,7 +330,7 @@ TFカードスロット  & 最大16 GB                        \\ \hline
 
 \subsubsection{空気亜鉛電池酸素濃度計}
 
-今回は株式会社ピーバンドットコムから発売されている「実習用酸素センサキット A-5S」（以下「A-5S」）は，補聴器などに用いられる安価な空気亜鉛電池が空気中の酸素と反応することで発生する電圧を測定することで酸素濃度を測定することができるセンサーである．東京工業高等専門学校の髙橋三男教授によって開発され，株式会社ピーバンドットコムによって量産されている．秋月電子通商にて1個税込み1100円で販売されている．図\ref{fig:a-5s}に写真を示す．
+今回は株式会社ピーバンドットコムから発売されている「実習用酸素センサキット A-5S」（以下「A-5S」）は，補聴器などに用いられる安価な空気亜鉛電池が空気中の酸素と反応することで発生する電圧を測定することで酸素濃度を測定することができるセンサーである．東京工業高等専門学校の髙橋三男教授によって開発され，株式会社ピーバンドットコムによって量産されている．秋月電子通商にて1個税込み1100円で販売されている．図\ref{fig:a-5s}に示す．
 
 \begin{figure}[H]
   \begin{center}
@@ -338,7 +344,15 @@ TFカードスロット  & 最大16 GB                        \\ \hline
 
 A-5Sは，空気亜鉛電池に固定抵抗と可変抵抗を接続した構造になっている．可変抵抗を調整し，大気中の酸素濃度20.93\%に合わせてA-5Sから出力される電圧が20.93mVとなるようにキャリブレーションを行う．一般的なガルバニ電池式酸素濃度計が2年ほどの寿命を持つのに対して，A-5Sにおける空気亜鉛電池の寿命はおよそ25時間とされている．実際に検証を行ったところ，キャリブレーションをやり直すことで2日間ほどは同じ酸素亜鉛電池を使用して酸素濃度が可能であることを確認した．
 
-今回はこのセンサーを二酸化炭素センサーとともに3Dプリンターで製作したミキシングチャンバーの円筒形状に合わせた台座上に設置した．なお，ミキシングチャンバー内での温度変化による抵抗値の変化を抑えるため，キットでは炭素抵抗となっている固定抵抗を金属皮膜抵抗に交換した上で使用している．
+今回はこのセンサーを，図\ref{fig:sensor_board}の通り二酸化炭素センサーとともに3Dプリンターで製作したミキシングチャンバーの円筒形状に合わせた台座上に設置した．なお，ミキシングチャンバー内での温度変化による抵抗値の変化を抑えるため，キットでは炭素抵抗が使用されている固定抵抗を金属皮膜抵抗に交換した上で使用している．
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=8cm]{fig/sensor_board}
+    \caption{ミキシングチャンバー内に設置したセンサー台座}
+    \label{fig:sensor_board}
+  \end{center}
+\end{figure}
 
 従来，呼吸代謝測定装置の酸素センサーにはガルバニ電池式センサーが多くの場合で使われてきた．この方式は高精度であるが，酸素濃度に応じて電圧を出力することで酸素濃度を測定するためのガルバニ電池が10000円以上と高価であるため，安価に入手できる空気亜鉛電池をセンサーとして用いたA-5Sを使用した．
 
@@ -348,13 +362,13 @@ A-5Sが出力する電圧は正しくキャリブレーションされた場合�
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=8cm]{fig/a-5s_opamp_schematic}
+    \includegraphics[width=12cm]{fig/a-5s_opamp_schematic}
     \caption{NJM2732Dによる非反転増幅回路}
     \label{fig:a-5s_opamp_schematic}
   \end{center}
 \end{figure}
 
-増幅にはオペアンプによる非反転増幅回路を用いた．単電源のフルスイングオペアンプであるNJM2732Dを使用して回路図\ref{fig:a-5s_opamp_schematic}の非反転増幅回路を構成した．増幅率は，ADコンバーターの測定範囲に合わせて，大気中の酸素濃度付近が測定範囲の中央に収まるように101倍とした．また，信号中のノイズを極力取り除くためにバイパスコンデンサーとしてセラミック積層コンデンサーを使用した．また，今回は呼気酸素濃度用の酸素センサーとしてA-5Sを一つだけ使用しているが，NJM2732Dは2回路入りのオペアンプであるため接地を兼ねてもう一回路分のターミナルも結線している．A-5Sをもう一つ追加し，吸気酸素濃度F_IO_2を計測することも可能である．
+増幅にはオペアンプによる非反転増幅回路を用いた．単電源のフルスイングオペアンプであるNJM2732Dを使用して回路図\ref{fig:a-5s_opamp_schematic}の非反転増幅回路を構成した．増幅率は，ADコンバーターの測定範囲に合わせて，大気中の酸素濃度付近が測定範囲の中央に収まるように101倍とした．また，信号中のノイズを極力取り除くためにバイパスコンデンサーとしてセラミック積層コンデンサーを使用した．また，今回は呼気酸素濃度用の酸素センサーとしてA-5Sを一つだけ使用しているが，NJM2732Dは2回路入りのオペアンプであるため接地を兼ねてもう一回路分のターミナルも結線している．A-5Sをもう一つ追加し，吸気酸素濃度を測定することも可能である．
 
 \begin{figure}[H]
   \begin{center}
@@ -364,7 +378,7 @@ A-5Sが出力する電圧は正しくキャリブレーションされた場合�
   \end{center}
 \end{figure}
 
-この回路をユニバーサル基板に実装し，図の通り筐体内のM5Stack Core2の下部に格納した．
+この回路をユニバーサル基板に実装し，図\ref{fig:opamp_universal}の通り筐体内のM5Stack Core2の下部に格納した．
 
 \subsubsection{デジタルフィルターによるノイズ除去}
 
@@ -374,11 +388,39 @@ A-5Sが出力する電圧を図\ref{fig:a-5s_opamp_schematic}の回路で増幅�
 
 呼気二酸化炭素濃度は運動負荷によって変化し，安静時の約1\%から高強度運動時には9\%まで変化するという\cite{co2_percent}．そのため，運動中の呼吸代謝の測定にはこの範囲の二酸化炭素濃度の測定に対応する必要がある．
 
-ところが，1万円程度以下で入手可能な市販の二酸化炭素濃度センサーは，測定範囲が0-5000ppm（0-0.5\%）のものが多い．今回は可能な限り高い運動強度での呼気二酸化炭素の濃度に対応するために，測定範囲が0-40000ppm（0-4\%）のSensirionの二酸化炭素センサーを用いたセンサーモジュールSCD30を使用した．M5Stack Core2とはI2C通信で接続を行った．表にSCD30とその仕様を示す．
+ところが，1万円程度以下で入手可能な市販の二酸化炭素濃度センサーは，測定範囲が0-5000ppm（0-0.5\%）のものが多い．今回は可能な限り高い運動強度での呼気二酸化炭素の濃度に対応するために，測定範囲が0-40000ppm（0-4\%）のSensirionの二酸化炭素センサーを用いたセンサーモジュールSCD30を使用した．M5Stack Core2とはI2C通信で接続を行った．図\ref{fig:scd30}及び表\ref{tb:scd30_specsheet}にSCD30とその仕様を示す．
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=8cm]{fig/scd30}
+    \caption{SCD30}
+    \label{fig:scd30}
+  \end{center}
+\end{figure}
+
+\begin{table}[H]
+\begin{center}
+\caption{SCD30 主な仕様}
+\label{tb:scd30_specsheet}
+\begin{tabular}{|l|l|}
+\hline
+機能        & 二酸化炭素センサー，温度センサー，湿度センサー              \\ \hline
+動作温度      & 0℃～+50℃                              \\ \hline
+定格電圧      & 3.3V～5.5V                            \\ \hline
+定格電流      & 17mA                                 \\ \hline
+通信方式      & I2C，Modbus                           \\ \hline
+サイズ       & 35mm \times 23mm \times 7mm          \\ \hline
+CO2測定範囲，精度 & \begin{tabular}[c]{@{}l@{}}400ppm〜10000ppm，\pm(30ppm +3\％)\\ 10000ppm〜40000ppm (不明)\end{tabular} \\ \hline
+湿度測定範囲，精度 & 0\%RH～100\％RH(25℃)，\pm3\％RH          \\ \hline
+温度測定範囲，精度 & 0℃～+50℃，\pm(0.4℃ +0.023×(T[℃] -25℃)) \\ \hline
+消費電流      & 19mA @ 1測定/2秒                        \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
 
 SCD30はNDIR方式（非分散型赤外線吸収方式）を用いて二酸化炭素の濃度を測定する．NDIR方式は，それぞれのガスが持つ特有の吸収波長領域を利用し，特定のガスのみの濃度を測定する測定方式である．ガス濃度測定方式のうち，対象ガスに変化を及ぼすことなく濃度を測定することができるのがNDIR方式の特徴である\cite{whats_ndir}．
 
-呼気を収集するミキシングチャンバー内は円筒形をしているため，酸素センサーA-5SとSCD30を安定して設置できるように3Dプリンターで両センサー用の台座を製作した．
+呼気を収集するミキシングチャンバー内は円筒形をしているため，3Dプリンターでミキシングチャンバーの形状に合わせた台座を製作し，酸素センサーとともに設置した（図\ref{fig:sensor_board}）．
 
 %二酸化炭素濃度を測定するセンサーにはMH-Z19Bを用いた．このセンサーはNDIR方式（非分散型赤外線吸収方式）を用いて二酸化炭素の濃度を測定する．NDIR方式は，それぞれのガスが持つ特有の吸収波長領域を利用し，特定のガスのみを対象ガスに変化を及ぼすことなく濃度を測定することができるガス濃度の測定方式である\cite{whats_ndir}．MH-Z19Bは，NDIR方式の二酸化炭素濃度センサーの中でも2000-5000円程度で比較的容易に入手できるものである．
 
@@ -386,19 +428,56 @@ SCD30はNDIR方式（非分散型赤外線吸収方式）を用いて二酸化�
 
 \subsection{気温・大気圧の計測}
 
-STPD係数の算出に必要な気温・気圧は，BOSCHの温湿度・気圧センサーBME280を搭載した市販のセンサーモジュールで計測する．今回はBME280とM5Stack Core2とはI2C通信で接続を行った．BOSCH公式のほかいくつか用意されているArduino用のライブラリを用いることで，関数を用いて簡単に温度，湿度，気圧を取得することができる．今回はAdafruit製のArduinoライブラリを用いた．図および表にBME280とその仕様を示す．
+STPD係数の算出に必要な気温・気圧は，BOSCHの温湿度・気圧センサーBME280を搭載した市販のセンサーモジュールで計測する．今回はBME280とM5Stack Core2とはI2C通信で接続を行った．BOSCH公式のほかいくつか用意されているArduino用のライブラリを用いることで，関数を用いて簡単に温度，湿度，気圧を取得することができる．今回はAdafruit製のArduinoライブラリを用いた．図\ref{fig:bme280}におよび表\ref{tb:bme280_specsheet}にBME280センサーモジュールとその仕様を示す．
 
-センサーモジュールはM5Stack Core2が発する熱の影響を受けないように本体筐体の外側に設置した図．
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=8cm]{fig/bme280}
+    \caption{BME280センサーモジュール．右下のチップがBME280本体である．}
+    \label{fig:bme280}
+  \end{center}
+\end{figure}
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[H]
+\begin{center}
+\caption{BME280 主な仕様}
+\label{tb:bme280_specsheet}
+\begin{tabular}{|l|l|l|}
+\hline
+機能    & \multicolumn{2}{l|}{温度センサー，湿度センサー，気圧センサー} \\ \hline
+電源電圧  & \multicolumn{2}{l|}{1.71V~3.6V}           \\ \hline
+通信方式                                                                     & \multicolumn{2}{l|}{I2C（最大3.4MHz），SPI（3線式/4線式，最大10MHz）} \\ \hline
+\multirow{3}{*}{\begin{tabular}[c]{@{}l@{}}測定範囲，\\ 精度，\\ 分解能\end{tabular}} & 温度                & -40~+85℃，\pm1℃，0.01℃                \\ \cline{2-3}
+      & 湿度      & 0~100\%，\pm3\%，0.008\%          \\ \cline{2-3}
+      & 気圧      & 300~1100hPa，\pm1hPa，0.18Pa      \\ \hline
+基板サイズ & \multicolumn{2}{l|}{10 \times 18mm}       \\ \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+センサーモジュールはM5Stack Core2が発する熱の影響を受けないように，本体筐体の外側に埋め込む形でビスで固定した（図\ref{fig:bme280_mount}）．
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=8cm]{fig/bme280_mount}
+    \caption{本体筐体に取り付けたBME280センサーモジュール}
+    \label{fig:bme280_mount}
+  \end{center}
+\end{figure}
 
 \subsection{データの記録}
+
+あとで別のデータとの同期が行いやすいようにJSTサーバーから現在時刻を取得して1秒単位のタイムスタンプを記録するようにしてる
 
 \subsubsection{計算用マイコン}
 
 \subsubsection{プログラム}
 
-\subsection{掛かった金額}
+\subsection{使用部材と価格}
 
-概算ではあるが，以下に今回使用した部品の価格より装置全体の価格を計算した．
+今回の装置の製作に使用した部材とその価格を表に示す．
 
 \expandafter\ifx\csname ifdraft\endcsname\relax
   \end{document}
