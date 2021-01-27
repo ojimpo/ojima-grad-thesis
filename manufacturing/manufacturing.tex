@@ -154,7 +154,7 @@ TFカードスロット  & 最大16 GB                        \\ \hline
   \end{center}
 \end{figure}
 
-呼気を収集するためには，呼吸の際の吸気と呼気を分離して呼気を収集するためのマスクが必要となる．これをここでは呼気収集マスクと呼ぶことにする．今回は呼気収集マスクには仰木研究室で以前に製作されたマスク（図\ref{fig:mask_front}）を流用した．これは，アクリル板を組み合わせて顔に合うような形状を構成し，呼気及び吸気用の通気口を取り付けた物である．使用時に両手が使えるように，頭に固定するための市販のガスマスクから流用したバンドが取り付けられている．マスクの内側の顔に触れる部分には，顔との間にできる隙間を埋め呼気ガスが呼気の通気口以外から漏れ出すことを防ぐためのシリコーンゴム製のパッドが取り付けてある図（\ref{fig:mask_rear}）．
+呼気を収集するためには，呼吸の際の吸気と呼気を分離して呼気を収集するためのマスクが必要となる．これをここでは呼気収集マスクと呼ぶことにする．今回は呼気収集マスクには仰木研究室で以前に製作された\cite{mask_build}マスク（図\ref{fig:mask_front}）を流用した．これは，アクリル板を組み合わせて顔に合うような形状を構成し，呼気及び吸気用の通気口を取り付けた物である．使用時に両手が使えるように，頭に固定するための市販のガスマスクから流用したバンドが取り付けられている．マスクの内側の顔に触れる部分には，顔との間にできる隙間を埋め呼気ガスが呼気の通気口以外から漏れ出すことを防ぐためのパッドが取り付けられている（\ref{fig:mask_rear}）．このパッドは超伸縮機能を有する山本化学工業のバイオラバー素材によって作られている．
 
 \begin{figure}[H]
   \begin{center}
@@ -222,8 +222,6 @@ TFカードスロット  & 最大16 GB                        \\ \hline
 
 \begin{table}[H]
 \begin{center}
-\caption{YF-S201 主な仕様}
-\label{tb:YFS201_specsheet}
 \begin{tabular}{|l|l|}
 \hline
 回転数測定方式 & ホール素子                    \\ \hline
@@ -237,6 +235,8 @@ TFカードスロット  & 最大16 GB                        \\ \hline
 取付角度    & 90度\pm5度                 \\ \hline
 流量-パルス  & 1L_{水}/min = 450_{pulse} \\ \hline
 \end{tabular}
+\caption{YF-S201 主な仕様}
+\label{tb:YFS201_specsheet}
 \end{center}
 \end{table}
 
@@ -289,8 +289,6 @@ TFカードスロット  & 最大16 GB                        \\ \hline
 
 \begin{table}[H]
 \begin{center}
-\caption{300mLの空気を流した際，YF-S201が増加区間で出力するパルス数}
-\label{tb:flowsensor_result}
 \begin{tabular}{|l|l|}
 \hline
 平均値  & 49.59      \\ \hline
@@ -300,14 +298,16 @@ TFカードスロット  & 最大16 GB                        \\ \hline
 最小値  & 27         \\ \hline
 標準偏差 & 8.22203746 \\ \hline
 \end{tabular}
+\caption{300mLの空気を流した際，YF-S201が増加区間で出力するパルス数}
+\label{tb:flowsensor_result}
 \end{center}
 \end{table}
 
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=6cm]{fig/flowsensor_histogram}
     \caption{結果のヒストグラム}
     \label{fig:flowsensor_histogram}
+    \includegraphics[width=10cm]{fig/flowsensor_histogram}
   \end{center}
 \end{figure}
 
@@ -382,7 +382,27 @@ A-5Sが出力する電圧は正しくキャリブレーションされた場合�
 
 \subsubsection{デジタルフィルターによるノイズ除去}
 
-A-5Sが出力する電圧を図\ref{fig:a-5s_opamp_schematic}の回路で増幅した電圧をM5Stack Core2のADコンバーターで読み取ったところ，図のようにスパイク状に高い値が混ざるようなノイズが乗ることが分かった．これを取り除くためにプログラム上のデジタルフィルターで信号を平滑化した．今回使用したのは
+A-5Sが出力する電圧を図\ref{fig:a-5s_opamp_schematic}の回路で増幅した電圧をM5Stack Core2のADコンバーターで読み取ったところ，図のようにスパイク状に高い値が混ざるようなノイズが乗ることが分かった．これを取り除くためにプログラム上のデジタルフィルターで信号を平滑化した．今回使用したのは移動中央値フィルターである．
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=10cm]{fig/m5core2_adc_raw}
+    \caption{M5Stack Core2のADコンバーターの出力値の波形}
+    \label{fig:m5core2_adc_raw}
+  \end{center}
+\end{figure}
+
+移動中央値フィルター（Running Median Filter）は，平滑化を行うために時系列データの中からいくつかを抽出し（窓），その中から中央値を選ぶという処理を行うフィルターである．中央値には平均値よりも外れ値の影響を受けにくいという特徴があり，信号の平滑化に広く使われる，窓の中から平均値を算出する移動平均フィルター（Running Median Filter）とは違い，外れ値が断続的に現れるデータにおいては外れ値による影響を受けにくいという特徴がある．
+
+今回のプログラムにおいてはRob Tillaart氏によるArduino用のライブラリ，RunningMedian\cite{tillaart_2021}を使用して実装を行った．移動中央値フィルターは窓の大きさを大きくするほど時間の遅れが生じるため，適切な窓の大きさを設定する必要があるが，今回はM5Stack Core2のADコンバーターの実際の出力値を見た上で，ライブラリが読み込むためのサンプル数を100個，窓のデータの数を5個として移動中央値フィルターを適用した．A-5Sの可変抵抗を調整することで意図的にADコンバーターの値を変動させたときの波形と，移動中央値フィルターを適用した値の波形を重ねたものを図\ref{fig:running_median_graph}に示す．
+
+\begin{figure}[H]
+  \begin{center}
+    \caption{赤線が元データ，青線が移動中央値フィルター適用後}
+    \includegraphics[width=10cm]{fig/running_median_graph}
+    \label{fig:running_median_graph}
+  \end{center}
+\end{figure}
 
 \subsection{呼気二酸化炭素の計測}
 
@@ -421,6 +441,8 @@ CO2測定範囲，精度 & \begin{tabular}[c]{@{}l@{}}400ppm〜10000ppm，\pm(30
 SCD30はNDIR方式（非分散型赤外線吸収方式）を用いて二酸化炭素の濃度を測定する．NDIR方式は，それぞれのガスが持つ特有の吸収波長領域を利用し，特定のガスのみの濃度を測定する測定方式である．ガス濃度測定方式のうち，対象ガスに変化を及ぼすことなく濃度を測定することができるのがNDIR方式の特徴である\cite{whats_ndir}．
 
 呼気を収集するミキシングチャンバー内は円筒形をしているため，3Dプリンターでミキシングチャンバーの形状に合わせた台座を製作し，酸素センサーとともに設置した（図\ref{fig:sensor_board}）．
+
+
 
 %二酸化炭素濃度を測定するセンサーにはMH-Z19Bを用いた．このセンサーはNDIR方式（非分散型赤外線吸収方式）を用いて二酸化炭素の濃度を測定する．NDIR方式は，それぞれのガスが持つ特有の吸収波長領域を利用し，特定のガスのみを対象ガスに変化を及ぼすことなく濃度を測定することができるガス濃度の測定方式である\cite{whats_ndir}．MH-Z19Bは，NDIR方式の二酸化炭素濃度センサーの中でも2000-5000円程度で比較的容易に入手できるものである．
 
