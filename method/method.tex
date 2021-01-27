@@ -5,6 +5,123 @@
 \section{方法}
 \label{sec:method}
 
+\subsection{換気量(V_E)}
+
+製作する装置で測定する酸素摂取量VO_2, 呼気中二酸化炭素量VCO_2は1分あたりの量を表す
+
+\subsubsection{換気量の測定}
+
+\ref{sec:vo2}で示したように，換気量V_Eを測定するためには呼気量を測れば良い．
+
+
+
+\subsubsection{STPD係数}
+\label{sec:stpd}
+
+呼気量から測定される換気量は，ATPS(Ambient Temperature, Pressure, Saturated with water vapor)においての値である．これは計測環境気温，計測環境気圧，水蒸気飽和における値である．酸素摂取量VO_2, 呼気中二酸化炭素量VCO2はSTPD(Standard Temperature, Pressure, Dry)，0℃，1気圧の気体標準状態で表記されるため，ATPSをSTPDに換算する必要がある．この換算に使用する係数をSTPD係数と呼ぶ．STPD係数は以下の式で表される．
+
+\begin{equation}
+  \label{eq:stpd}
+  STPD = \frac{P_B - P_{H2O}}{760} \times　\frac{273.15}{273.15 + T}
+\end{equation}
+
+ただし，P_B: 気圧，P_{H2O}: 飽和水蒸気圧（\ref{sec:swvp}で記述する），T: 気温，273.15: 絶対温度である．
+
+\subsubsection{飽和水蒸気圧}
+\label{sec:swvp}
+
+飽和水蒸気圧P_{H2O}は温度によって変化し，Tetens(1930)の式を用いて近似値を求めることができる．温度T[℃]の時の飽和水蒸気圧e(T)[mmHg]は次の式で求められる．
+
+\begin{equation}
+  e(T) = 6.1078 \times 10 ^ \frac{7.5T}{(T + 237.3)} \times \frac{760}{1013.25}
+\end{equation}
+
+\subsubsection{換気量の計算}
+
+VO_2, VCO_2に使用される換気量は1分間値であるので，換気量V_{ATPS}を求めるためには呼気量Vを採気時間T[min]で割る．
+
+\begin{equation}
+  V_{ATPS} = \frac{V}{T}
+\end{equation}
+
+これにSTPD係数（\ref{eq:stpd}）を掛けると換気量V_{STPD}が得られる．
+
+\begin{equation}
+  V_{STPD} = V_{ATPS} \times STPD
+\end{equation}
+
+\subsection{酸素摂取量}
+
+酸素摂取量VO_2は単位時間あたり（多くの場合1分間値が用いられる）に身体に取り入れられた酸素の量を表す値である．よって，吸気中酸素量V_IO_2と呼気中酸素量V_EO2の差が酸素摂取量となる．吸気中酸素量，呼気中酸素量は，それぞれ吸気中酸素濃度F_IO_2と呼気中酸素濃度F_EO_2を用いて式\ref{eq:vo2formula}のように表せる．
+
+\begin{equation}
+  \label{eq:vo2formula}
+  VO_2 = (V_I \times F_IO_2) - (V_E \times F_EO_2)
+\end{equation}
+
+よって，酸素摂取量は吸気中酸素量と呼気中酸素量を測定することにより求められる．しかし，実際には呼気の分析のみで酸素摂取量を求める方法が用いられる．
+
+\subsubsection{窒素補正}
+\label{sec:vo2fromvn2}
+
+呼気の分析のみで酸素摂取量を求めるためには，{\bf 窒素は代謝に使われないため，身体に吸収されない}という性質を利用する．この性質から，吸気中窒素濃度F_IN_2と呼気中窒素濃度F_EN_2を用いて式\ref{eq:vin2ven2}が成り立つ．
+
+\begin{equation}
+  \label{eq:vin2ven2}
+  V_I \times F_IN_2 = V_E \times F_EN_2
+\end{equation}
+
+V_Iに関してまとめると，V_Iは式\ref{eq:vi}のように表せる．
+
+\begin{equation}
+  \label{eq:vi}
+  V_I = \frac{V_E \times F_EN_2}{F_IN_2}
+\end{equation}
+
+これを式\ref{eq:vo2formula}に代入すると次のようになる．
+
+\begin{equation}
+  \label{eq:vo2ve}
+  VO_2 = \frac{V_E \times F_EN_2}{F_IN_2} \times F_IO_2 - V_E \times F_EO_2
+\end{equation}
+
+式\ref{eq:vo2ve}の右辺から，V_Eを括り出すことで次の式が成り立つ．
+
+\begin{equation}
+  \label{eq:getvo2fromn2}
+  VO_2 = V_E \times (\frac{F_EN_2}{F_IN_2} \times F_IO_2 - F_EO_2)
+\end{equation}
+
+呼気中窒素濃度は呼気中酸素濃度と呼気中二酸化炭素濃度を100\%から引いた残りであるから，
+式\ref{eq:getvo2fromn2}のF_EN_2はF_EO_2とF_IO_2を用いて式\ref{eq:fen2byfeo2feco2}のように表せる．
+
+\begin{equation}
+  \label{eq:fen2byfeo2feco2}
+  VO_2 = V_E \times (\frac{100 - F_EO_2 - F_ECO_2}{F_IN_2} \times F_IO_2 - F_EO_2)
+\end{equation}
+
+通常大気中において，吸気中窒素濃度F_IN_2は79.04\%，吸気中酸素濃度F_IO_2は20.93\%であるから，これらを代入して式\ref{eq:fen2byfeo2feco2}は次のようになる．
+
+\begin{equation}
+  \label{eq:asdkjf}
+  VO_2 = V_E \times (\frac{100 - F_EO_2 - F_ECO_2}{79.04} \times 20.93 - F_EO_2)
+\end{equation}
+
+式\ref{eq:asdkjf}から，呼気量V_Eと呼気中酸素濃度F_EO_2，呼気中二酸化炭素濃度F_ECO_2から酸素摂取量VO_2を求めることができる．
+
+以上の式では，「窒素は代謝に使われないため，吸気と呼気中の窒素の量は変わらない」という特性を利用して，呼気中窒素量を用いて呼気中酸素量を補正することで吸気中酸素量を求めている．これを窒素補正という．
+
+ただし，V_EはSTPD(Standard Temperature, Pressure, Dry)，0℃，1気圧の気体標準状態である．ATPS(Ambient Temperature, Pressure, Saturated with water vapor)の呼気量からSTPDにおける換気量を計算するための係数，STPD係数を求める方法については\ref{sec:stpd}で述べる．
+
+\subsection{呼気中二酸化炭素量}
+
+呼気中二酸化炭素量VCO_2は単純に，STPD（\ref{sec:stpd}）における換気量V_Eと呼気中二酸化炭素濃度を掛けて求めることができる．式は以下のようになる．
+
+\begin{equation}
+  \label{eq:vco2}
+  VCO_2 = V_E \times (\frac{100 - F_EO_2 - F_ECO_2}{79.04} \times 20.93 - F_EO_2)
+\end{equation}
+
 \subsection{直接法と間接法}
 
 \subsubsection{直接法}
@@ -160,8 +277,9 @@
 
 
 \subsubsection{STPD係数}
+\label{sec:stpd}
 
-呼気量から測定される換気量は，ATPS(Ambient Temperature, Pressure, Saturated with water vapor)においての値である．これは計測環境気温，計測環境気圧，水蒸気飽和における値である．VO_2, VCO_2は慣習としてSTPD(Standard Temperature, Pressure, Dry)，0℃，1気圧の気体標準状態で表記されるため，ATPSをSTPDに換算する必要がある．この係数をSTPD係数と呼ぶ．STPD係数は以下の式で表される．
+呼気量から測定される換気量は，ATPS(Ambient Temperature, Pressure, Saturated with water vapor)においての値である．これは計測環境気温，計測環境気圧，水蒸気飽和における値である．酸素摂取量VO_2, 呼気中二酸化炭素量VCO2はSTPD(Standard Temperature, Pressure, Dry)，0℃，1気圧の気体標準状態で表記されるため，ATPSをSTPDに換算する必要がある．この換算に使用する係数をSTPD係数と呼ぶ．STPD係数は以下の式で表される．
 
 \begin{equation}
   \label{eq:stpd}

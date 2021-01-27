@@ -4,26 +4,132 @@
 
 \section{計算}
 
-\subsection{VCO2}
+\subsection{換気量}
 
-\subsection{STPD係数}
+\subsubsection{換気量の測定}
 
-ミキシングチャンバーに取り付けられたセンサーによって測定される換気量は，BTPS(Body Temperature, Pressure, Saturated with water vapor)においての値である．これは慣習として体温37℃，水蒸気飽和，計測環境気圧化における容積値として扱われる．VO2, VCO2は慣習としてSTPD(Standard Temperature, Pressure, Dry)，0℃，1気圧の気体標準状態で表記されるため，BTPSを係数を用いてSTPDに換算する必要がある．この係数をSTPD係数と呼ぶ．STPD係数は以下の式で表される．
+呼吸代謝の計算に用いられる分時換気量\.{V}_E（L/min）は，ガスメーターを用いた換気量の測定では採気ガス容量V（L）を採気時間（min）で割ることによって求められる．今回製作した装置のように流量計を用いる場合は，直接分時換気量を測定することができる．
+
+\subsubsection{STPD係数}
+\label{sec:stpd}
+
+呼気量から測定される換気量は，ATPS(Ambient Temperature, Pressure, Saturated with water vapor)においての値である．これは計測環境気温，計測環境気圧，水蒸気飽和における値である．換気量V_E，酸素摂取量VO_2など気体の容積を測定する場合には，STPD(Standard Temperature, Pressure, Dry)，0℃，1気圧，湿度0\%の気体標準状態が用いられる．その換算に使用する係数をSTPD係数と呼ぶ．
+
+STPD係数はボイル・シャルルの法則より，以下の式で表される．
 
 \begin{equation}
+  \label{eq:stpd}
   STPD = \frac{P_B - P_{H2O}}{760} \times　\frac{273.15}{273.15 + T}
 \end{equation}
 
-ただし，P_B: 気圧，P_{H2O}: 飽和水蒸気圧（\ref{sec:SWVP}で記述する），T: 気温，273.15: 絶対温度である．
+ただし，P_B: 気圧，P_{H2O}: 飽和水蒸気圧（\ref{sec:swvp}），T: 気温，273.15: 絶対温度である．
+
+これによって求めたSTPD係数を用いて，標準状態における換気量\.{V}_{ATPS}を求める．
+
+\begin{equation}
+  V_{STPD} = V_{ATPS} \times STPD
+\end{equation}
 
 \subsubsection{飽和水蒸気圧}
-\label{sec:SWVP}
+\label{sec:swvp}
 
-飽和水蒸気圧P_{H2O}は温度によって変化し，Tetens(1930)の式を用いて近似値を求めることができる．温度T[℃]の時の飽和水蒸気圧e(T)[mmHg]は次の式で求められる．
+飽和水蒸気圧P_{H2O}は温度によって変化し，Tetensの式\cite{tetens1930einige}を用いて近似値を求めることができる．温度T[℃]の時の飽和水蒸気圧e(T)[mmHg]は次の式で求められる．
 
 \begin{equation}
   e(T) = 6.1078 \times 10 ^ \frac{7.5T}{(T + 237.3)} \times \frac{760}{1013.25}
 \end{equation}
+
+
+\subsection{酸素摂取量}
+
+\subsubsection{酸素摂取量測定の原理}
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=8cm]{fig/vo2_measurement}
+    \caption{VO_2測定の原理}
+    \label{fig:vo2_measurement}
+  \end{center}
+\end{figure}
+
+酸素摂取量\.{V}O_2は単位時間あたり（多くの場合1分間値が用いられる）に身体に取り入れられた酸素の量を表す値である．よって，吸気中酸素量\.{V}_IO_2と呼気中酸素量\.{V}_EO2の差が酸素摂取量となる．吸気中酸素量，呼気中酸素量は，それぞれ吸気中酸素濃度F_IO_2と呼気中酸素濃度F_EO_2を用いて式\ref{eq:vo2_principle}のように表せる．
+
+\begin{equation}
+  \label{eq:vo2_principle}
+  \.{V}O_2 = (\.{V}_I \times F_IO_2) - (\.{V}_E \times F_EO_2)
+\end{equation}
+
+よって，酸素摂取量は吸気中酸素量と呼気中酸素量を測定することにより求められる．しかし，実際には呼気の分析のみで酸素摂取量を求める方法が用いられる．
+
+\subsubsection{窒素補正}
+\label{sec:n2}
+
+呼気の分析のみで酸素摂取量を求めるためには，{\bf 窒素は代謝に使われないため，身体に吸収されない}という性質を利用する．この性質から，吸気中窒素濃度F_IN_2と呼気中窒素濃度F_EN_2を用いて式\ref{eq:vin2ven2}が成り立つ．
+
+\begin{equation}
+  \label{eq:vi_vefen2}
+  \.{V}_I \times F_IN_2 = V_E \times F_EN_2
+\end{equation}
+
+\.{V}_Iに関してまとめると，\.{V}_Iは式\ref{eq:vi_ve}のように表せる．
+
+\begin{equation}
+  \label{eq:vi_ve}
+  \.{V}_I = \frac{\.{V}_E \times F_EN_2}{F_IN_2}
+\end{equation}
+
+これを式\ref{eq:vo2_principle}に代入すると次のようになる．
+
+\begin{equation}
+  \label{eq:vo2_ve}
+  \.{V}O_2 = \frac{\.{V}_E \times F_EN_2}{F_IN_2} \times F_IO_2 - \.{V}_E \times F_EO_2
+\end{equation}
+
+式\ref{eq:vo2_ve}の右辺から，\.{V}_Eを括り出すことで次の式が成り立つ．
+
+\begin{equation}
+  \label{eq:vo2_n2}
+  \.{V}O_2 = \.{V}_E \times (\frac{F_EN_2}{F_IN_2} \times F_IO_2 - F_EO_2)
+\end{equation}
+
+呼気中窒素濃度は呼気中酸素濃度と呼気中二酸化炭素濃度を100\%から引いた残りであるから，
+式\ref{eq:vo2_n2}のF_EN_2はF_EO_2とF_IO_2を用いて式\ref{eq:vo2_100_n2}のように表せる．
+
+\begin{equation}
+  \label{eq:vo2_100_n2}
+  \.{V}O_2 = \.{V}_E \times (\frac{100 - F_EO_2 - F_ECO_2}{F_IN_2} \times F_IO_2 - F_EO_2)
+\end{equation}
+
+通常大気中において，吸気中窒素濃度F_IN_2は79.04\%，吸気中酸素濃度F_IO_2は20.93\%であるから，これらを代入して式\ref{eq:vo2_100_n2}は次のようになる．
+
+\begin{equation}
+  \label{eq:vo2_final}
+  \.{V}O_2 = \.{V}_E \times (\frac{100 - F_EO_2 - F_ECO_2}{79.04} \times 20.93 - F_EO_2)
+\end{equation}
+
+式\ref{eq:vo2_final}から，呼気量V_Eと呼気中酸素濃度F_EO_2，呼気中二酸化炭素濃度F_ECO_2から酸素摂取量VO_2を求めることができる．
+
+以上の式では，「窒素は代謝に使われないため，吸気と呼気中の窒素の量は変わらない」という特性を利用して，呼気中窒素量を用いて呼気中酸素量を補正することで吸気中酸素量を求めている．これを窒素補正という．
+
+\subsection{二酸化炭素排出量}
+
+二酸化炭素排出量\.{V}CO_2(L/min)は単純に，STPD（\ref{sec:stpd}）における換気量\.{V}_Eと呼気中二酸化炭素濃度を掛けて求めることができる．式は以下のようになる．
+
+\begin{equation}
+  \.{V}CO_2 = \.{V}_{STPD} \times F_EO_2
+\end{equation}
+
+\subsection{呼吸交換比}
+
+\subsection{呼吸商}
+
+\subsection{運動強度}
+
+\subsection{消費エネルギーの推定}
+
+\subsection{脂肪燃焼量の推定}
+
+\subsection{炭水化物燃焼量の推定}
 
 \expandafter\ifx\csname ifdraft\endcsname\relax
   \end{document}
