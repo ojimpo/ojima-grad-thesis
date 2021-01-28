@@ -40,7 +40,7 @@
 
 予備実験から，機材の都合上，ケイデンス60rpmを保ったまま出力できる最低パワーは40W付近であることが分かった．そこで，低強度プロトコルにおける第1段階パワーを40Wとし，高強度プロトコルにおいては30W（ケイデンス60rpm時において0.5kp）増負荷として70Wとした．第1段階パワーからそれぞれ3oW刻みで3分ごとに増負荷とし，設定パワーは表\ref{tb:protocol_power}のようになる．
 
-\begin{table}[]
+\begin{table}[H]
 \begin{center}
   \caption{各プロトコルの設定パワー}
   \label{tb:protocol_power}
@@ -57,7 +57,7 @@
 
 本研究で製作した装置は各値の算出に1分平均値を使用しているため，平均値が立ち上がるまでの測定開始後1分間のデータは除外する必要がある．そのため第一段階パワーに入るまでに，40Wでのペダリングをウォーミングアップを兼ねて5分間行い，実際のデータ処理では測定開始後2分後からのデータを用いることとした．．以上より，低強度プロトコル，高強度プロトコルはそれぞれ図\ref{fig:protocol_rampup_light}，図\ref{fig:protocol_rampup_hard}のようになる．
 
-\begin{figure}[h]
+\begin{figure}[H]
   \begin{center}
     \label{fig:protocol_rampup_light}
     \caption{低強度プロトコル}
@@ -65,7 +65,7 @@
   \end{center}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \begin{center}
     \label{fig:protocol_rampup_hard}
     \caption{高強度プロトコル}
@@ -77,7 +77,7 @@
 
 作成したプロトコルを元に運動を行うためにZwiftのワークアウト機能を用いた．Zwiftはパワーメーター等のパワーソースを接続し，入力されたパワーを元にバーチャルワールド内を自転車に乗ったアバターを操作して走ることができるバーチャルサイクリングプラットフォームである（図\ref{fig:zwift}）．Zwiftはパワーや心拍数，ケイデンスなどの走行ログデータが1秒間隔で記録されたFITファイルを保存する．これをmacOS用のユーティリティー，FIT File Explorer\cite{fitfile}を用いてCSVファイルに変換した．
 
-\begin{figure}[h]
+\begin{figure}[H]
   \begin{center}
     \label{fig:zwift}
     \includegraphics[width=8cm]{fig/zwift}
@@ -91,7 +91,7 @@ Zwiftのワークアウト機能はペダリングを開始した時点を0秒�
 
 Zwiftが出力するログデータにはPrecision 2.0 3Dが出力する1秒パワーが1秒間隔で記録される．これは変動が大きく， 1分間平均値となる酸素摂取量と比較するのは困難であったため，後処理によって1分平均パワー値を計算して使用した．
 
-\begin{figure}[h]
+\begin{figure}[H]
   \begin{center}
     \label{fig:4iiii}
     \includegraphics[width=8cm]{fig/4iiii}
@@ -101,7 +101,7 @@ Zwiftが出力するログデータにはPrecision 2.0 3Dが出力する1秒パ�
 
 自動負荷調整機能付きローラー台にはGROWTACのハイブリッド式（前輪固定式）ローラー台のGT-ROLLER Flex3（図\ref{fig:gt-roller_flex3}）を用いた．なお，自動負荷調整装置であるGT-ePower-FとGT-eBoxを取り付けているが，今回の実験においては自動負荷調整機能は無効化し最低負荷に固定して使用している．
 
-\begin{figure}[h]
+\begin{figure}[H]
   \begin{center}
     \label{fig:gt-roller_flex3}
     \includegraphics[width=8cm]{fig/gt-roller_flex3}
@@ -111,7 +111,7 @@ Zwiftが出力するログデータにはPrecision 2.0 3Dが出力する1秒パ�
 
 心拍数の測定にはScoscheの光学式心拍計のRHYTHM+を使用した．光学式心拍計は皮膚に光を照射し，血管内の反射を読み取ることで脈拍を計測する．この心拍計は光源に3つのLED（緑色2個，黄色1個）を使用している．本来は前腕内側に巻きつけることが推奨されているが，皮下脂肪量が多い上腕外側に巻きつけて使用した方が異常値の出力の頻度が低くなることが確認できているため，上腕外側に巻きつけて心拍数を計測した．ZwiftにはANT+方式で接続した．
 
-\begin{figure}[h]
+\begin{figure}[H]
   \begin{center}
     \label{fig:rhythm}
     \includegraphics[width=8cm]{fig/rhythm}
@@ -123,7 +123,7 @@ Zwiftが出力するログデータにはPrecision 2.0 3Dが出力する1秒パ�
 
 実験は各プロトコル別日に行った．以下に実験時の条件を示す．
 
-\begin{table}[h]
+\begin{table}[H]
   \begin{center}
   \caption{ランプアップ・ダウン（低強度）}
   \label{tb:YFS201_specsheet}
@@ -139,7 +139,7 @@ Zwiftが出力するログデータにはPrecision 2.0 3Dが出力する1秒パ�
   \end{center}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[H]
   \begin{center}
   \caption{ランプアップ・ダウン（高強度）}
   \label{tb:YFS201_specsheet}
