@@ -47,7 +47,7 @@
 
 %表紙の記載する内容の定義
 \makeatletter
-\def\@thesis{2021年度卒業論文}
+\def\@thesis{卒業論文　2020年度（令和2年度）}
 \def\id#1{\def\@id{#1}}
 \def\department#1{\def\@department{#1}}
 \title{マイコンと汎用センサーを用いた安価なリアルタイム呼吸代謝測定装置の製作} %タイトル
@@ -61,16 +61,25 @@
 \makeatletter
 \def\@maketitle{
 \begin{center}
-{\huge \@thesis \par} %修士論文と記載される部分
-\vspace{50mm}
-{\LARGE\bf \@title \par} %論文のタイトル部分
+{\Large 卒業論文　2020年度（令和2年度） \par} %修士論文と記載される部分
 \vspace{30mm}
-{\Large \@date\par} %提出年月日部分
-\vspace{50mm}
+{\LARGE\bf
+マイコンと汎用センサーを用いた安価な\\
+リアルタイム呼吸代謝測定装置の製作
+\par} %論文のタイトル部分
+\vspace{10mm}
+{\LARGE\bf
+Fabrication of an affordable\\
+real-time respiratory metabolism measurement device\\
+using a microcomputer and general-purpose sensors
+\par} %論文の英語タイトル部分
+\vspace{30mm}
 {\Large \@department \par} %所属部分
 {\Large 学籍番号　\@id \par} %学籍番号部分
 \vspace{10mm}
-{\Large \@author} %氏名
+{\Large \@author \par} %氏名
+\vspace{20mm}
+{\Large 指導教員　仰木裕嗣} %氏名
 \end{center}
 \par\vskip 1.5em
 }
